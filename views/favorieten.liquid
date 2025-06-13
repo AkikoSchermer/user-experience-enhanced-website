@@ -1,0 +1,30 @@
+{% render 'partials/head.liquid' %}
+
+
+<h1>Mijn Favorieten</h1>
+
+{% if products.size == 0 %}
+  <div class="empty-state">
+    <p>Je hebt nog geen favorieten toegevoegd.</p>
+    <a href="/" class="btn">Bekijk producten</a>
+  </div>
+{% else %}
+  <ul class="container">
+    {% for product in products %}
+      <li class="card">
+        <div class="image-container">
+          <a href="/detail/{{ product.id }}">
+            <img src="{{ product.image }}" alt="{{ product.name }}">
+          </a>
+        </div>
+        <div class="info">
+          <h2>{{ product.name }}</h2>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+    
+
+{% render 'partials/footer.liquid' %}

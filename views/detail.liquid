@@ -1,0 +1,40 @@
+{% render 'partials/head.liquid' %}
+
+<main class="main-content">
+  <div class="carousel">
+    <button class="prev">‹</button>
+    <button class="next">›</button>
+
+    <div class="carousel-images">
+      {% if product.image %}
+        <img src="{{ product.image }}" alt="{{ product.name }} - Foto 1">
+        <!-- Extra afbeeldingen hier -->
+      {% else %}
+        {% comment %} <p>Geen afbeelding beschikbaar</p> {% endcomment %}
+        <img src="Group 485.png">
+      {% endif %}
+    </div>
+
+    <div class="dots">
+      <span class="dot"></span>
+      <span class="dot active"></span>
+      <span class="dot"></span>
+    </div>
+  </div>
+
+  <div class="content-info">
+    <h1>{{ product.name }}</h1>
+    {% comment %}
+    <div class="borders">
+      <img src="/public/profiel1.png" class="border" alt="Border 1">
+      <img src="/public/profiel1.png" class="border" alt="Border 2">
+    </div>
+    {% endcomment %}
+    <p>Korte intro tekst hier. Dit is de productomschrijving voor {{ product.name }}.</p>
+  </div>
+</main>
+
+<section class="extra-text">
+  {% comment %} <p>Tekst onder alles</p> {% endcomment %}
+</section>
+    {% render 'partials/footer.liquid' %}

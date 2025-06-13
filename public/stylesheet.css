@@ -1,0 +1,9 @@
+
+html {
+    font-family: "Parkinsans",sans-serif;
+}
+
+body { 
+    --main-backgroundcolor: #F6F5F5;
+	--main-cardcolor: #FFFFFF;
+}

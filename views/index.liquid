@@ -1,0 +1,192 @@
+{% render 'partials/head.liquid' %}
+
+<div class="main-layout">
+  <div class="left-column">
+    <h1>I'm looking for a gift for...</h1>
+      </div>
+
+             <div class="bookmark-spinner hidden">
+        <svg class="spinner-icon" viewBox="0 0 50 50">
+          <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+        </svg>
+        <p>Bezig met toevoegen...</p>
+      </div>
+      
+      <div class="success-message hidden">
+        <p>Kado is toegevoegd aan je favorieten!</p>
+      </div>
+    
+
+  <ul class="container">
+    {% for product in products %}
+   <li class="card {% if forloop.index > 4 %}hidden{% endif %}">
+        <div class="image-container">
+          <a href="/detail/{{ product.id }}">
+          <picture>
+            <source type="image/avif" srcset="{{ product.image }}?format=avif">
+            <source type="image/webp" srcset="{{ product.image }}?format=webp">
+            <img src="{{ product.image }}" alt="{{ product.name }}" width="400" height="300">
+          </picture>
+
+        </a>
+          <form method="POST" action="/like/{{ product.id }}" class="bookmark-form">
+            <button type="submit" name="productId" value="{{ product.id }}" class="bookmark-btn">
+              <img 
+                src="{% if product.liked %}BookmarkFilled.svg{% else %}Bookmarkplus.svg{% endif %}" 
+                class="bookmark" 
+                alt="Bookmark">
+            </button>
+          </form>
+        </div>
+
+        <div class="info">
+          <h2>{{ product.name }}</h2>
+          <div class="circles">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <p class="saved-label">+3 Saved</p>
+          </div>
+          <a href="/detail/{{ product.id }}" class="btn"></a>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<form action="/" method="POST">
+<div class="input-container">
+  <label for="message"></label>
+  <svg class="mic-btn" width="17" height="23" viewBox="0 0 17 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8.17332 0.5C9.09989 0.5 9.98851 0.868079 10.6437 1.52326C11.2989 2.17845 11.667 3.06707 11.667 3.99364V10.9809C11.667 11.9075 11.2989 12.7961 10.6437 13.4513C9.98851 14.1065 9.09989 14.4746 8.17332 14.4746C7.24675 14.4746 6.35812 14.1065 5.70294 13.4513C5.04775 12.7961 4.67968 11.9075 4.67968 10.9809V3.99364C4.67968 3.06707 5.04775 2.17845 5.70294 1.52326C6.35812 0.868079 7.24675 0.5 8.17332 0.5ZM16.3252 10.9809C16.3252 15.0918 13.2857 18.4806 9.33787 19.0512V22.6264H7.00877V19.0512C3.06095 18.4806 0.0214844 15.0918 0.0214844 10.9809H2.35058C2.35058 12.5252 2.96405 14.0063 4.05602 15.0982C5.148 16.1902 6.62903 16.8037 8.17332 16.8037C9.71761 16.8037 11.1986 16.1902 12.2906 15.0982C13.3826 14.0063 13.9961 12.5252 13.9961 10.9809H16.3252Z" fill="#A3A3A3"/>
+  </svg>
+
+  <textarea id="message" name="message" required placeholder="I'm looking for a gift for..."></textarea>
+
+  <button type="submit" class="sub">
+    <svg width="46" height="45" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="23.1725" cy="22.4974" rx="22.6667" ry="22.3333" fill="#212121"/>
+      <path d="M21.424 13.5C20.3412 13.5006 19.2737 13.7649 18.3072 14.2717C17.3407 14.7785 16.5022 15.5137 15.8591 16.4181C15.2159 17.3225 14.7862 18.371 14.6042 19.4792C14.4223 20.5874 14.4934 21.7244 14.8116 22.799C15.1299 23.8735 15.6865 24.8555 16.4368 25.6661C17.187 26.4767 18.11 27.0932 19.1315 27.4661C20.1529 27.8391 21.2444 27.958 22.3182 27.8134C23.392 27.6688 24.4181 27.2646 25.3141 26.6334L29.5918 31.0711C29.7106 31.2035 29.8539 31.3097 30.0131 31.3833C30.1723 31.457 30.3442 31.4966 30.5184 31.4998C30.6927 31.503 30.8658 31.4697 31.0274 31.4019C31.189 31.3342 31.3358 31.2333 31.4591 31.1053C31.5823 30.9774 31.6795 30.825 31.7447 30.6572C31.81 30.4894 31.8421 30.3097 31.839 30.1287C31.8359 29.9478 31.7978 29.7694 31.7268 29.6041C31.6559 29.4388 31.5536 29.2901 31.4261 29.1667L27.1519 24.7254C27.859 23.6449 28.2691 22.3847 28.338 21.0803C28.4069 19.7759 28.1321 18.4766 27.5431 17.3223C26.9541 16.1679 26.0731 15.2021 24.995 14.5286C23.9168 13.8551 22.6823 13.4995 21.424 13.5ZM17.0979 20.6866C17.0979 19.4953 17.5537 18.3529 18.365 17.5105C19.1763 16.6682 20.2767 16.195 21.424 16.195C22.5714 16.195 23.6718 16.6682 24.4831 17.5105C25.2944 18.3529 25.7502 19.4953 25.7502 20.6866C25.7502 21.8778 25.2944 23.0203 24.4831 23.8626C23.6718 24.7049 22.5714 25.1782 21.424 25.1782C20.2767 25.1782 19.1763 24.7049 18.365 23.8626C17.5537 23.0203 17.0979 21.8778 17.0979 20.6866Z" fill="white"/>
+    </svg>
+  </button>
+</div>
+</form>
+
+
+
+
+{% comment %} 
+
+<div class="main-layout">
+    <h1>I'm looking for a gift for...</h1>
+<ul class="container">
+  {% for product in products %}
+    <li class="card {% if forloop.index > 4 %}hidden{% endif %}">
+      <div class="image-container">
+        <a href="/detail/{{ product.id }}">
+          <img src="{{ product.image }}" alt="{{ product.name }}">
+        </a>
+     
+        <form method="POST" action="/like/{{ product.id }}" class="bookmark-form">
+        <button type="submit" name="productId" value="{{ product.id }}" class="bookmark-btn">
+          <img 
+            src="{% if product.liked %}BookmarkFilled.svg{% else %}Bookmarkplus.svg{% endif %}" 
+            class="bookmark" 
+            alt="Bookmark">
+        </button>
+      </form>
+      </div>
+
+
+      <div class="info">
+        <h2>{{ product.name }}</h2>
+       <div class="circles">
+          <div class="circle"></div>
+          <div class="circle"></div>
+          <p class="saved-label">+3 Saved</p>
+        </div> 
+        <a href="/detail/{{ product.id }}" class="btn"></a>
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+
+
+<form action="/" method="POST">
+   <div class="input-container">
+    <label for="message"></label>
+    <svg class="mic-btn" width="17" height="23" viewBox="0 0 17 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.17332 0.5C9.09989 0.5 9.98851 0.868079 10.6437 1.52326C11.2989 2.17845 11.667 3.06707 11.667 3.99364V10.9809C11.667 11.9075 11.2989 12.7961 10.6437 13.4513C9.98851 14.1065 9.09989 14.4746 8.17332 14.4746C7.24675 14.4746 6.35812 14.1065 5.70294 13.4513C5.04775 12.7961 4.67968 11.9075 4.67968 10.9809V3.99364C4.67968 3.06707 5.04775 2.17845 5.70294 1.52326C6.35812 0.868079 7.24675 0.5 8.17332 0.5ZM16.3252 10.9809C16.3252 15.0918 13.2857 18.4806 9.33787 19.0512V22.6264H7.00877V19.0512C3.06095 18.4806 0.0214844 15.0918 0.0214844 10.9809H2.35058C2.35058 12.5252 2.96405 14.0063 4.05602 15.0982C5.148 16.1902 6.62903 16.8037 8.17332 16.8037C9.71761 16.8037 11.1986 16.1902 12.2906 15.0982C13.3826 14.0063 13.9961 12.5252 13.9961 10.9809H16.3252Z" fill="#A3A3A3"/>
+    </svg>
+
+    <textarea id="message" name="message" required placeholder="I'm looking for a gift for..."></textarea>
+
+    <button type="submit" class="sub">
+       <svg width="46" height="45" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+         <ellipse cx="23.1725" cy="22.4974" rx="22.6667" ry="22.3333" fill="#212121"/>
+         <path d="M21.424 13.5C20.3412 13.5006 19.2737 13.7649 18.3072 14.2717C17.3407 14.7785 16.5022 15.5137 15.8591 16.4181C15.2159 17.3225 14.7862 18.371 14.6042 19.4792C14.4223 20.5874 14.4934 21.7244 14.8116 22.799C15.1299 23.8735 15.6865 24.8555 16.4368 25.6661C17.187 26.4767 18.11 27.0932 19.1315 27.4661C20.1529 27.8391 21.2444 27.958 22.3182 27.8134C23.392 27.6688 24.4181 27.2646 25.3141 26.6334L29.5918 31.0711C29.7106 31.2035 29.8539 31.3097 30.0131 31.3833C30.1723 31.457 30.3442 31.4966 30.5184 31.4998C30.6927 31.503 30.8658 31.4697 31.0274 31.4019C31.189 31.3342 31.3358 31.2333 31.4591 31.1053C31.5823 30.9774 31.6795 30.825 31.7447 30.6572C31.81 30.4894 31.8421 30.3097 31.839 30.1287C31.8359 29.9478 31.7978 29.7694 31.7268 29.6041C31.6559 29.4388 31.5536 29.2901 31.4261 29.1667L27.1519 24.7254C27.859 23.6449 28.2691 22.3847 28.338 21.0803C28.4069 19.7759 28.1321 18.4766 27.5431 17.3223C26.9541 16.1679 26.0731 15.2021 24.995 14.5286C23.9168 13.8551 22.6823 13.4995 21.424 13.5ZM17.0979 20.6866C17.0979 19.4953 17.5537 18.3529 18.365 17.5105C19.1763 16.6682 20.2767 16.195 21.424 16.195C22.5714 16.195 23.6718 16.6682 24.4831 17.5105C25.2944 18.3529 25.7502 19.4953 25.7502 20.6866C25.7502 21.8778 25.2944 23.0203 24.4831 23.8626C23.6718 24.7049 22.5714 25.1782 21.424 25.1782C20.2767 25.1782 19.1763 24.7049 18.365 23.8626C17.5537 23.0203 17.0979 21.8778 17.0979 20.6866Z" fill="white"/>
+       </svg>      
+    </button>
+   </div>
+</form>
+</div> {% endcomment %}
+
+
+<script>
+document.querySelectorAll('.bookmark-form').forEach(form => {
+  form.addEventListener('submit', function(event) {
+    event.preventDefault(); // Voorkomt herladen van de pagina
+
+    const spinnerBox = document.querySelector('.bookmark-spinner');
+    const buttonImage = this.querySelector('.bookmark-btn img');
+    const successMessage = document.querySelector('.success-message');
+    const melding = document.getElementById('melding'); // error-toast
+    const isLiked = buttonImage.getAttribute('src').toLowerCase() === 'bookmark-filled.svg';
+
+    // Laat spinner zien vóór de icoon verandert
+    spinnerBox.classList.remove('hidden');
+
+    fetch(this.action, {
+      method: 'POST',
+      body: new FormData(this)
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Error bij het liken');
+
+      // Verberg spinner
+      spinnerBox.classList.add('hidden');
+
+      // Verander icoon pas na succesvolle fetch
+      buttonImage.setAttribute('src', isLiked ? 'Bookmarkplus.svg' : 'bookmark-filled.svg');
+
+      // Toon success message (optioneel)
+      if (successMessage) {
+        successMessage.classList.remove('hidden');
+        setTimeout(() => successMessage.classList.add('hidden'), 3000);
+      }
+    })
+    .catch(() => {
+      spinnerBox.classList.add('hidden');
+
+      if (melding) {
+        melding.classList.remove('hidden');
+        melding.classList.add('show');
+
+        setTimeout(() => {
+          melding.classList.remove('show');
+          setTimeout(() => melding.classList.add('hidden'), 300);
+        }, 3000);
+      } else {
+        alert('Er ging iets mis!');
+      }
+    });
+  });
+});
+</script>
+
+
+
+    
+
+{% render 'partials/footer.liquid' %}
+
+
